@@ -147,8 +147,8 @@ document.addEventListener("DOMContentLoaded", function() {
       va.messagingUtil.postInstructionalMessage(
         VA_RESULT_NAME,
         "D3 Bar Chart expects columns to be assigned in this order:\n" +
-          " 1. Category (string)\n" +
-          " 2. Measure (number)"
+          " 1. Major road (category)\n" +
+          " 2. Minor name (category)"
       );
       return;
     }
@@ -157,9 +157,9 @@ document.addEventListener("DOMContentLoaded", function() {
     DATA = [];
     for (let i = 0; i < VA_MESSAGE.data.length; i++) {
       DATA.push({
-        x: VA_MESSAGE.data[i][0],
-        y: VA_MESSAGE.data[i][1],
-        selected: VA_MESSAGE.data[i][2],
+        major_name: VA_MESSAGE.data[i][0],
+        minor_name: VA_MESSAGE.data[i][1],
+        selected: VA_MESSAGE.data[i].slice(2,VA_MESSAGE.data.length),
         index: i
       });
     }
