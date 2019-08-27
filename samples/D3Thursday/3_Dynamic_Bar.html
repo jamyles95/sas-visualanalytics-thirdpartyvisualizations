@@ -52,42 +52,6 @@ limitations under the License.
 document.addEventListener("DOMContentLoaded", function() {
   /******************************************************* Declare variables *******************************************************/
 
-  // Static data variables
-  const SVG_ID = "dynamic-bar"; // ID of SVG element
-  const SAMPLE_MESSAGE = {
-    version: "1",
-    resultName: "dd75",
-    rowCount: 6,
-    availableRowCount: 6,
-    data: [
-      ["Hybrid", 3],
-      ["Sedan", 262],
-      ["Sports", 49],
-      ["SUV", 60],
-      ["Truck", 24],
-      ["Wagon", 30]
-    ],
-    columns: [
-      {
-        name: "bi77",
-        label: "Type",
-        type: "string"
-      },
-      {
-        name: "bi78",
-        label: "Frequency",
-        type: "number",
-        usage: "quantitative",
-        aggregation: "totalCount",
-        format: {
-          name: "COMMA",
-          width: 12,
-          precision: 0,
-          formatString: "COMMA12."
-        }
-      }
-    ]
-  }; // Sample data message to render graph outside of VA for debugging
 
   // Dynamic data variables
   let VA_MESSAGE; // Data message to be received from VA
