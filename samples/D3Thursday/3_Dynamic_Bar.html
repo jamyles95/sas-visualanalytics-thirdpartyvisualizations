@@ -174,6 +174,22 @@ document.addEventListener("DOMContentLoaded", function() {
         "transform",
         "translate(" + Y_AXIS_WIDTH + ", " + EDGE_PADDING + ")"
       );
+	  
+
+
+
+  svg.append("line")
+      .attr("stroke", "#aaa")
+      .attr("x1", d => x(d3.min(keys, k => d[k])))
+      .attr("x2", d => x(d3.max(keys, k => d[k])));
+
+  svgg.append("g")
+    .selectAll("circle")
+    .data(d => d3.cross(keys, [d]))
+    .join("circle")
+      .attr("cx", ([k, d]) => x(d[k]))
+      .attr("fill", ([k]) => color(k))
+      .attr("r", 3.5);
 
     G_CHART_AREA = SVG.select(".g-chart-area");
 
