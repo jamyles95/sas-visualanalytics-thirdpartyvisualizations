@@ -159,7 +159,8 @@ document.addEventListener("DOMContentLoaded", function() {
       DATA.push({
         major_name: VA_MESSAGE.data[i][0],
         minor_name: VA_MESSAGE.data[i][1],
-        selected: VA_MESSAGE.data[i].slice(2,VA_MESSAGE.data.length),
+		combo: VA_MESSAGE.data[i][2],
+        selected: VA_MESSAGE.data[i].slice(3,VA_MESSAGE.data.length),
         index: i
       });
     }
@@ -219,7 +220,7 @@ document.addEventListener("DOMContentLoaded", function() {
       .padding(0.1)
       .domain(
         DATA.map(function(d) {
-          return d.x;
+          return d.combo;
         })
       );
 
@@ -262,7 +263,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Create bars for each
     DATA_BARS = G_CHART_AREA.selectAll(".data-bar").data(DATA, function(d) {
-      return d.x;
+      return d.combo;
     });
 
     DATA_BARS.enter()
@@ -275,7 +276,7 @@ document.addEventListener("DOMContentLoaded", function() {
       .on("click", selectElement)
       .merge(DATA_BARS)
       .attr("x", function(d) {
-        return X_SCALE(d.x);
+        return X_SCALE(d.combo);
       })
       .attr("y", function(d) {
         return Y_SCALE(d.y);
@@ -297,7 +298,7 @@ document.addEventListener("DOMContentLoaded", function() {
       .padding(0.1)
       .domain(
         DATA.map(function(d) {
-          return d.x;
+          return d.combo;
         })
       );
 
@@ -406,33 +407,8 @@ document.addEventListener("DOMContentLoaded", function() {
     va.messagingUtil.postSelectionMessage(VA_RESULT_NAME, []);
   }
 
-  // Handle selection on element
-  function selectElement() {
-    // Prevent event from falling through to underlying elements
-    d3.event.stopPropagation();
 
-    // If control is held toggle selected on click preserving array, otherwise select only clicked element
-    if (d3.event.ctrlKey) {
-      // Toggle selection on clicked element
-      d3.select(this).classed("selected", !d3.select(this).classed("selected"));
-    } else {
-      // Deselect all elements
-      d3.selectAll(".selectable").classed("selected", false);
-
-      // Select clicked element
-      d3.select(this).classed("selected", true);
-    }
-
-    // Build array of selected elements
-    const selections = [];
-    d3.selectAll(".selectable").each(function(d) {
-      if (d3.select(this).classed("selected")) {
-        selections.push({ row: d.index });
-      }
-    });
-
-    // Post message to VA
-    va.messagingUtil.postSelectionMessage(VA_RESULT_NAME, selections);
+   
   }
 });
 </script>
