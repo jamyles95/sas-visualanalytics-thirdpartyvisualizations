@@ -25,17 +25,19 @@ limitations under the License.
 </head>
 <body>
   <style type="text/css">
+	  
   html, body, svg {
     overflow: hidden;
     margin: 0px;
     width: 100%;
     height: 100%;
   }
+	  
 .circle {
 	fill: orange;
 }
 .dot {
-  stroke: #000;
+	stroke: #000;
 }
 
 </style>
@@ -200,6 +202,8 @@ document.addEventListener("DOMContentLoaded", function() {
       });
     }
 
+combos = DATA.columns.slice(2)
+
 
     // Initialize chart if first draw, otherwise process data and update elements accordingly
     if (d3.select("#" + SVG_ID).empty()) {
@@ -222,11 +226,11 @@ document.addEventListener("DOMContentLoaded", function() {
     .padding(1)
 	
 	var xScale = d3.scaleBand()
-		.domain(data.map(function(d) {
-			return d.label
-		}))
-		.range([padding, w - padding])
-		.padding(0.4);
+	.domain(data.map(function(d) {
+		return d.label
+	}))
+	.range([padding, w - padding])
+	.padding(0.4);
 	
 	
     // Calculate dimensions for graph based on container dimensions
@@ -307,18 +311,57 @@ document.addEventListener("DOMContentLoaded", function() {
 		.filter(function(d){return d.
   }
 
-  // Redraw data dependent elements on data change
-  function updateElements() {
-    // Update x scale
-    X_SCALE = d3
-      .scaleBand()
-      .rangeRound([0, CHART_WIDTH])
-      .padding(0.1)
-      .domain(
-        DATA.map(function(d) {
-          return d.tot_crsh_min;
-        })
-      );
+/***********************************************************************************************************/
+chart = {
+  const svg = d3.select(DOM.svg(width, height));
+
+  svg.append("g")
+      .call(xAxis);
+
+  const g = svg.append("g")
+      .attr("text-anchor", "end")
+      .style("font", "10px sans-serif")
+    .selectAll("g")
+    .data(data)
+    .join("g")
+      .attr("transform", (d, i) => `translate(0,${y(d.name)})`);
+
+  g.append("line")
+      .attr("stroke", "#aaa")
+      .attr("x1", d => x(d3.min(combos, k => d[k])))
+      .attr("x2", d => x(d3.max(combos, k => d[k])));
+
+  g.append("g")
+    .selectAll("circle")
+    .data(d => d3.cross(combos, [d]))
+    .join("circle")
+      .attr("cx", ([k, d]) => x(d[k]))
+      .attr("fill", ([k]) => color(k))
+      .attr("r", 3.5);
+
+  g.append("text")
+      .attr("dy", "0.35em")
+      .attr("x", d => x(d3.min(combos, k => d[k])) - 6)
+      .text((d, i) => d.name);
+
+  svg.append("g")
+      .call(legend);
+
+  function update(primary) {
+    // Compute the desired order based on the selected age group.
+    y.domain(d3.permute(names, d3.range(data.length)
+        .sort((i, j) => data[j][primary] - data[i][primary])));
+
+    // Transition the columns to their new position.
+    g.transition()
+        .delay((d, i) => i * 10)
+        .attr("transform", d => `translate(0,${y(d.name)})`)
+  }
+
+  return Object.assign(svg.node(), {update});
+}
+	 
+/***********************************************************************************************************/
 
     // Update y scale
     Y_SCALE = d3
