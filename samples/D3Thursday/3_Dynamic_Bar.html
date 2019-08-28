@@ -175,21 +175,27 @@ document.addEventListener("DOMContentLoaded", function() {
         "translate(" + Y_AXIS_WIDTH + ", " + EDGE_PADDING + ")"
       );
 	  
+var series = [
+  [{time: 1, value: 2}, {time: 2, value: 4}, {time: 3, value: 8}],
+  [{time: 1, value: 5}, {time: 2, value: 9}, {time: 3, value: 12}],
+  [{time: 1, value: 3}, {time: 2, value: 2}, {time: 3, value: 2}],
+  [{time: 1, value: 2}, {time: 2, value: 4}, {time: 3, value: 15}]
+];
+		   
 
 
+var line = d3.svg.line()
+    .interpolate("basis")
+    .x(function(d) { return x(d.time); })
+    .y(function(d) { return y(d.value); });
 
-  svg.append("line")
-      .attr("stroke", "#aaa")
-      .attr("x1", d => x(d3.min(keys, k => d[k])))
-      .attr("x2", d => x(d3.max(keys, k => d[k])));
 
-  svgg.append("g")
-    .selectAll("circle")
-    .data(d => d3.cross(keys, [d]))
-    .join("circle")
-      .attr("cx", ([k, d]) => x(d[k]))
-      .attr("fill", ([k]) => color(k))
-      .attr("r", 3.5);
+group.selectAll(".line")
+    .data(series)
+  .enter().append("path")
+    .attr("class", "line")
+    .attr("d", line);
+
 
     G_CHART_AREA = SVG.select(".g-chart-area");
 
