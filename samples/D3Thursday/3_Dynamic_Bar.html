@@ -31,19 +31,13 @@ limitations under the License.
     width: 100%;
     height: 100%;
   }
+.circle {
+	fill: orange;
+}
+.dot {
+  stroke: #000;
+}
 
-  .data-bar {
-    fill: steelblue;
-  }
-
-  .data-bar:hover {
-    fill: lightsteelblue;
-  }
-
-  .selectable.selected {
-    stroke-width: 2px;
-    stroke: black;
-  }
 </style>
 
 <script>
@@ -51,6 +45,7 @@ limitations under the License.
 
 document.addEventListener("DOMContentLoaded", function() {
   /******************************************************* Declare variables *******************************************************/
+
 
 
   // Dynamic data variables
@@ -124,10 +119,87 @@ document.addEventListener("DOMContentLoaded", function() {
         major_name: VA_MESSAGE.data[i][0],
         minor_name: VA_MESSAGE.data[i][1],
 		combo: VA_MESSAGE.data[i][2],
-        selected: VA_MESSAGE.data[i].slice(3,VA_MESSAGE.data.length),
+		tot_crsh_min: VA_MESSAGE.data[i][3],
+		tot_crsh_lclm: VA_MESSAGE.data[i][4],
+		tot_crsh: VA_MESSAGE.data[i][5],
+		tot_crsh_mean: VA_MESSAGE.data[i][6],
+		tot_crsh_med: VA_MESSAGE.data[i][7],
+		tot_crsh_uclm: VA_MESSAGE.data[i][8],
+		tot_crsh_max: VA_MESSAGE.data[i][9],
+		ndt_sev_min: VA_MESSAGE.data[i][10],
+		ndt_sev_lclm: VA_MESSAGE.data[i][11],
+		ndt_sev: VA_MESSAGE.data[i][12],
+		ndt_sev_mean: VA_MESSAGE.data[i][13],
+		ndt_sev_med: VA_MESSAGE.data[i][14],
+		ndt_sev_uclm: VA_MESSAGE.data[i][15],
+		ndt_sev_max: VA_MESSAGE.data[i][16],
+		frnt_crsh_min: VA_MESSAGE.data[i][17],
+		frnt_crsh_lclm: VA_MESSAGE.data[i][18],
+		frnt_crsh: VA_MESSAGE.data[i][19],
+		frnt_crsh_mean: VA_MESSAGE.data[i][20],
+		frnt_crsh_med: VA_MESSAGE.data[i][21],
+		frnt_crsh_uclm: VA_MESSAGE.data[i][22],
+		frnt_crsh_max: VA_MESSAGE.data[i][23],
+		frnt_sev_min: VA_MESSAGE.data[i][24],
+		frnt_sev_lclm: VA_MESSAGE.data[i][25],
+		frnt_sev: VA_MESSAGE.data[i][26],
+		frnt_sev_mean: VA_MESSAGE.data[i][27],
+		frnt_sev_med: VA_MESSAGE.data[i][28],
+		frnt_sev_uclm: VA_MESSAGE.data[i][29],
+		frnt_sev_max: VA_MESSAGE.data[i][30],
+		ngt_crsh_min: VA_MESSAGE.data[i][31],
+		ngt_crsh_lclm: VA_MESSAGE.data[i][32],
+		ngt_crsh: VA_MESSAGE.data[i][33],
+		ngt_crsh_mean: VA_MESSAGE.data[i][34],
+		ngt_crsh_med: VA_MESSAGE.data[i][35],
+		ngt_crsh_uclm: VA_MESSAGE.data[i][36],
+		ngt_crsh_max: VA_MESSAGE.data[i][37],
+		rear_crsh_min: VA_MESSAGE.data[i][38],
+		rear_crsh_lclm: VA_MESSAGE.data[i][39],
+		rear_crsh: VA_MESSAGE.data[i][40],
+		rear_crsh_mean: VA_MESSAGE.data[i][41],
+		rear_crshh_med: VA_MESSAGE.data[i][42],
+		rear_crsh_uclm: VA_MESSAGE.data[i][43],
+		rear_crsh_max: VA_MESSAGE.data[i][44],
+		ror_crsh_min: VA_MESSAGE.data[i][45],
+		ror_crsh_lclm: VA_MESSAGE.data[i][46],
+		ror_crsh: VA_MESSAGE.data[i][47],
+		ror_crsh_mean: VA_MESSAGE.data[i][48],
+		ror_crsh_med: VA_MESSAGE.data[i][49],
+		ror_crsh_uclm: VA_MESSAGE.data[i][50],
+		ror_crsh_max: VA_MESSAGE.data[i][51],
+		sswp_crsh_min: VA_MESSAGE.data[i][52],
+		sswp_crsh_lclm: VA_MESSAGE.data[i][53],
+		sswp_crsh: VA_MESSAGE.data[i][54],
+		sswp_crsh_mean: VA_MESSAGE.data[i][55],
+		sswp_crsh_med: VA_MESSAGE.data[i][56],
+		sswp_crsh_uclm: VA_MESSAGE.data[i][57],
+		sswp_crsh_max: VA_MESSAGE.data[i][58],
+		tot_adt_min: VA_MESSAGE.data[i][59],
+		tot_adt_lclm: VA_MESSAGE.data[i][60],
+		tot_adt: VA_MESSAGE.data[i][61],
+		tot_adt_mean: VA_MESSAGE.data[i][62],
+		tot_adt_med: VA_MESSAGE.data[i][63],
+		tot_adt_uclm: VA_MESSAGE.data[i][64],
+		tot_adt_max: VA_MESSAGE.data[i][65],
+		tot_fat_crsh_min: VA_MESSAGE.data[i][66],
+		tot_fat_crsh_lclm: VA_MESSAGE.data[i][67],
+		tot_fat_crsh: VA_MESSAGE.data[i][68],
+		tot_fat_crsh_mean: VA_MESSAGE.data[i][69],
+		tot_fat_crsh_med: VA_MESSAGE.data[i][70],
+		tot_fat_crsh_uclm: VA_MESSAGE.data[i][71],
+		tot_fat_crsh_max: VA_MESSAGE.data[i][72],
+		wet_crsh_min: VA_MESSAGE.data[i][73],
+		wet_crsh_lclm: VA_MESSAGE.data[i][74],
+		wet_crsh: VA_MESSAGE.data[i][75],
+		wet_crsh_mean: VA_MESSAGE.data[i][76],
+		wet_crsh_med: VA_MESSAGE.data[i][77],
+		wet_crsh_uclm: VA_MESSAGE.data[i][78],
+		wet_crsh_max: VA_MESSAGE.data[i][79],
         index: i
       });
     }
+
 
     // Initialize chart if first draw, otherwise process data and update elements accordingly
     if (d3.select("#" + SVG_ID).empty()) {
@@ -143,7 +215,20 @@ document.addEventListener("DOMContentLoaded", function() {
     if (!DATA) {
       return;
     }
-
+	
+	y = d3.scalePoint()
+    .domain(names)
+    .rangeRound([margin.top, height - margin.bottom])
+    .padding(1)
+	
+	var xScale = d3.scaleBand()
+		.domain(data.map(function(d) {
+			return d.label
+		}))
+		.range([padding, w - padding])
+		.padding(0.4);
+	
+	
     // Calculate dimensions for graph based on container dimensions
     WIDTH = window.innerWidth;
     HEIGHT = window.innerHeight;
@@ -156,48 +241,14 @@ document.addEventListener("DOMContentLoaded", function() {
       .data([DATA])
       .enter()
       .append("svg")
-      .attr("id", SVG_ID)
-      .on("click", deselectAllElements);
+      .attr("id", SVG_ID);
 
     SVG = d3
       .select("#" + SVG_ID)
       .attr("width", WIDTH)
       .attr("height", HEIGHT);
 
-    // Append/update chart-area group and save reference
-    SVG.selectAll(".g-chart-area")
-      .data([DATA])
-      .enter()
-      .append("g")
-      .classed("g-chart-area", true)
-      .attr(
-        "transform",
-        "translate(" + Y_AXIS_WIDTH + ", " + EDGE_PADDING + ")"
-      );
-	  
-var series = [
-  [{time: 1, value: 2}, {time: 2, value: 4}, {time: 3, value: 8}],
-  [{time: 1, value: 5}, {time: 2, value: 9}, {time: 3, value: 12}],
-  [{time: 1, value: 3}, {time: 2, value: 2}, {time: 3, value: 2}],
-  [{time: 1, value: 2}, {time: 2, value: 4}, {time: 3, value: 15}]
-];
-		   
 
-
-var line = d3.svg.line()
-    .interpolate("basis")
-    .x(function(d) { return x(d.time); })
-    .y(function(d) { return y(d.value); });
-
-
-group.selectAll(".line")
-    .data(series)
-  .enter().append("path")
-    .attr("class", "line")
-    .attr("d", line);
-
-
-    G_CHART_AREA = SVG.select(".g-chart-area");
 
     // Create x scale
     X_SCALE = d3
@@ -206,7 +257,7 @@ group.selectAll(".line")
       .padding(0.1)
       .domain(
         DATA.map(function(d) {
-          return d.combo;
+          return d.tot_crsh_min;
         })
       );
 
@@ -247,32 +298,13 @@ group.selectAll(".line")
       )
       .call(d3.axisLeft(Y_SCALE));
 
-    // Create bars for each
-    DATA_BARS = G_CHART_AREA.selectAll(".data-bar").data(DATA, function(d) {
-      return d.combo;
+    // Create dots for each
+    DATA_DOTS = SVG.selectAll(".dot").data(DATA, function(d) {
+      return d.tot_crsh_min;
     });
 
-    DATA_BARS.enter()
-      .append("rect")
-      .classed("data-bar", true)
-      .classed("selectable", true)
-      .classed("selected", function(d) {
-        return d.selected;
-      })
-      .on("click", selectElement)
-      .merge(DATA_BARS)
-      .attr("x", function(d) {
-        return X_SCALE(d.combo);
-      })
-      .attr("y", function(d) {
-        return Y_SCALE(d.y);
-      })
-      .attr("width", function() {
-        return X_SCALE.bandwidth();
-      })
-      .attr("height", function(d) {
-        return CHART_HEIGHT - Y_SCALE(d.y);
-      });
+    DATA_DOTS.append(".dot")
+		.filter(function(d){return d.
   }
 
   // Redraw data dependent elements on data change
@@ -284,7 +316,7 @@ group.selectAll(".line")
       .padding(0.1)
       .domain(
         DATA.map(function(d) {
-          return d.combo;
+          return d.tot_crsh_min;
         })
       );
 
@@ -313,64 +345,10 @@ group.selectAll(".line")
       .duration(TRANS_TIME)
       .call(d3.axisLeft(Y_SCALE));
 
-    // Enter/Update/Exit data bars
-    DATA_BARS = G_CHART_AREA.selectAll(".data-bar").data(DATA, function(d) {
-      return d.x;
-    });
+   
 
-    DATA_BARS.classed("selected", function(d) {
-      return d.selected;
-    })
-      .transition()
-      .duration(TRANS_TIME)
-      .attr("x", function(d) {
-        return X_SCALE(d.x);
-      })
-      .attr("y", function(d) {
-        return Y_SCALE(d.y);
-      })
-      .attr("width", function() {
-        return X_SCALE.bandwidth();
-      })
-      .attr("height", function(d) {
-        return CHART_HEIGHT - Y_SCALE(d.y);
-      })
-      .style("opacity", 1);
 
-    DATA_BARS.enter()
-      .append("rect")
-      .classed("data-bar", true)
-      .classed("selectable", true)
-      .classed("selected", function(d) {
-        return d.selected;
-      })
-      .attr("x", function(d) {
-        return X_SCALE(d.x);
-      })
-      .attr("y", function(d) {
-        return Y_SCALE(d.y);
-      })
-      .attr("width", function() {
-        return X_SCALE.bandwidth();
-      })
-      .attr("height", function(d) {
-        return CHART_HEIGHT - Y_SCALE(d.y);
-      })
-      .style("opacity", 0)
-      .on("click", selectElement)
-      .transition()
-      .duration(TRANS_TIME)
-      .style("opacity", 1);
-
-    DATA_BARS.exit()
-      .classed("selected", false)
-      .transition()
-      .duration(TRANS_TIME)
-      .attr("data-test", function() {
-        return 0;
-      })
-      .style("opacity", 0)
-      .remove();
+    
   }
 
   /******************************************************* Helper Functions *******************************************************/
