@@ -202,8 +202,6 @@ document.addEventListener("DOMContentLoaded", function() {
       });
     }
 
-combos = DATA.columns.slice(2)
-
 
     // Initialize chart if first draw, otherwise process data and update elements accordingly
     if (d3.select("#" + SVG_ID).empty()) {
@@ -252,7 +250,7 @@ combos = DATA.columns.slice(2)
       .attr("width", WIDTH)
       .attr("height", HEIGHT);
 
-
+/*******************************************************************************************************************************/
 
     // Create x scale
     X_SCALE = d3
@@ -301,6 +299,9 @@ combos = DATA.columns.slice(2)
         "translate(" + Y_AXIS_WIDTH + ", " + EDGE_PADDING + ")"
       )
       .call(d3.axisLeft(Y_SCALE));
+
+/*******************************************************************************************************************************/
+
 
     // Create dots for each
     DATA_DOTS = SVG.selectAll(".dot").data(DATA, function(d) {
@@ -355,7 +356,7 @@ chart = {
     // Transition the columns to their new position.
     g.transition()
         .delay((d, i) => i * 10)
-        .attr("transform", d => `translate(0,${y(d.name)})`)
+        .attr("transform", d => `translate(0,${y(d.combos)})`)
   }
 
   return Object.assign(svg.node(), {update});
