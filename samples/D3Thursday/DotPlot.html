@@ -137,6 +137,20 @@ document.addEventListener("DOMContentLoaded", function() {
       });
     }	
 
+       // Initialize chart if first draw, otherwise process data and update elements accordingly
+    if (d3.select("#" + SVG_ID).empty()) {
+      drawElements();
+    } else {
+      updateElements();
+    }
+  }
+
+   // Draw elements for first time and on resize event
+  function drawElements() {
+    // Return if data is not yet initialized
+    if (!DATA) {
+      return;
+    }
 	chart = {
 	
   	const svg = d3.select(DOM.svg(width, height));
