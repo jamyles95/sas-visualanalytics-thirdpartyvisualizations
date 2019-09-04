@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function() {
   selectedMajor = "SR 1314";
 	  
   selectedMinor = "SR 1311";
- /* // Static dimension variables
+  // Static dimension variables
   const TRANS_TIME = 500; // Duration of transitions
   const EDGE_PADDING = 10; // Padding between end of axes and edge of SVG
   const Y_AXIS_WIDTH = 30; // Width allocated for y-axis
@@ -152,6 +152,25 @@ document.addEventListener("DOMContentLoaded", function() {
     if (!DATA) {
       return;
     }
+	
+	WIDTH = window.innerWidth;
+    	HEIGHT = window.innerHeight;
+   	CHART_WIDTH = WIDTH - Y_AXIS_WIDTH - EDGE_PADDING;
+   	CHART_HEIGHT = HEIGHT - X_AXIS_HEIGHT - EDGE_PADDING;  
+	  
+	
+	d3.select("body")
+	  .selectAll("#" + SVG_ID)
+	  .data)[DATA])
+	  .enter()
+	  .append("svg")
+	  .attr("id", SVG_ID);
+	  
+	SVG = d3
+	  .select("#" + SVG_ID)
+	  .attr("width", WIDTH)
+	  .attr("height", HEIGHT);
+	  
 	chart = {
 	
   	const svg = d3.select(DOM.svg(width, height));
