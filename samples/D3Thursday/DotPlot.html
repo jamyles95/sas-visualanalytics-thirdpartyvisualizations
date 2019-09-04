@@ -88,10 +88,10 @@ document.addEventListener("DOMContentLoaded", function() {
   // Attach event for data message from VA
   va.messagingUtil.setOnDataReceivedCallback(onDataReceived);
 
-  // If not being rendered in iFrame (outside VA), render with sample data
+  /* If not being rendered in iFrame (outside VA), render with sample data
   if (!inIframe()) {
     onDataReceived(SAMPLE_MESSAGE);
-  }
+  }*/
 
   // Listen for resize event
   va.contentUtil.setupResizeListener(drawElements);
@@ -140,11 +140,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
     drawElements();
 	  
- /*      // Initialize chart if first draw, otherwise process data and update elements accordingly
+     // Initialize chart if first draw, otherwise process data and update elements accordingly
     if (d3.select("#" + SVG_ID).empty()) {
       drawElements();
     } 
-  }*/
+  }
 
    // Draw elements for first time and on resize event
   function drawElements() {
@@ -253,12 +253,13 @@ document.addEventListener("DOMContentLoaded", function() {
 	height = data.length * 70
 
 	margin = ({top: 20, right: 5, bottom: 150, left: 5})
+
 } 
 	  
     
   
 
-  /******************************************************* Helper Functions *******************************************************/
+  /******************************************************* Helper Functions 
 
   // Determine whether or not page is being rendered in iFrame
   function inIframe() {
@@ -275,12 +276,12 @@ document.addEventListener("DOMContentLoaded", function() {
     d3.selectAll(".selectable").classed("selected", false);
 
     // Post message to VA
-    va.messagingUtil.postSelectionMessage(VA_RESULT_NAME, []);
+    va.messagingUtil.postSelectionMessage(VA_RESULT_NAME);
   }
 
 
-   
-  }
+   *******************************************************/
+  
 });
 </script>
 </body>
