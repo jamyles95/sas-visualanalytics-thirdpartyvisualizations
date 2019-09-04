@@ -53,7 +53,15 @@ document.addEventListener("DOMContentLoaded", function() {
   let VA_RESULT_NAME; // Result name required to send messages back to VA
   let DATA; // Data to be parsed from VA data message
 
-  // Static dimension variables
+  
+  win_width = window.innerWidth
+	  
+  win_height = 1000
+
+  selectedMajor = "SR 1314";
+	  
+  selectedMinor = "SR 1311";
+ /* // Static dimension variables
   const TRANS_TIME = 500; // Duration of transitions
   const EDGE_PADDING = 10; // Padding between end of axes and edge of SVG
   const Y_AXIS_WIDTH = 30; // Width allocated for y-axis
@@ -73,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function() {
   let X_AXIS; // X axis group data-join
   let Y_AXIS; // Y axis group data join
   let DATA_BARS; // Data bars data-join
-
+*/
   /*************************************************** Setup Callback Functions ***************************************************/
 
   // Attach event for data message from VA
@@ -99,15 +107,14 @@ document.addEventListener("DOMContentLoaded", function() {
     if (
       !va.contentUtil.validateRoles(
         messageFromVA,
-        ["string", "string"],
+        ["string"],
         ["number"]
       )
     ) {
       va.messagingUtil.postInstructionalMessage(
         VA_RESULT_NAME,
         "D3 Bar Chart expects columns to be assigned in this order:\n" +
-          " 1. Major road (category)\n" +
-          " 2. Minor name (category)"
+          " 1. Major road (category)\n" + "Any optional variables"
       );
       return;
     }
@@ -116,240 +123,66 @@ document.addEventListener("DOMContentLoaded", function() {
     DATA = [];
     for (let i = 0; i < VA_MESSAGE.data.length; i++) {
       DATA.push({
-        major_name: VA_MESSAGE.data[i][0],
-        minor_name: VA_MESSAGE.data[i][1],
-		combo: VA_MESSAGE.data[i][2],
-		tot_crsh_min: VA_MESSAGE.data[i][3],
-		tot_crsh_lclm: VA_MESSAGE.data[i][4],
-		tot_crsh: VA_MESSAGE.data[i][5],
-		tot_crsh_mean: VA_MESSAGE.data[i][6],
-		tot_crsh_med: VA_MESSAGE.data[i][7],
-		tot_crsh_uclm: VA_MESSAGE.data[i][8],
-		tot_crsh_max: VA_MESSAGE.data[i][9],
-		ndt_sev_min: VA_MESSAGE.data[i][10],
-		ndt_sev_lclm: VA_MESSAGE.data[i][11],
-		ndt_sev: VA_MESSAGE.data[i][12],
-		ndt_sev_mean: VA_MESSAGE.data[i][13],
-		ndt_sev_med: VA_MESSAGE.data[i][14],
-		ndt_sev_uclm: VA_MESSAGE.data[i][15],
-		ndt_sev_max: VA_MESSAGE.data[i][16],
-		frnt_crsh_min: VA_MESSAGE.data[i][17],
-		frnt_crsh_lclm: VA_MESSAGE.data[i][18],
-		frnt_crsh: VA_MESSAGE.data[i][19],
-		frnt_crsh_mean: VA_MESSAGE.data[i][20],
-		frnt_crsh_med: VA_MESSAGE.data[i][21],
-		frnt_crsh_uclm: VA_MESSAGE.data[i][22],
-		frnt_crsh_max: VA_MESSAGE.data[i][23],
-		frnt_sev_min: VA_MESSAGE.data[i][24],
-		frnt_sev_lclm: VA_MESSAGE.data[i][25],
-		frnt_sev: VA_MESSAGE.data[i][26],
-		frnt_sev_mean: VA_MESSAGE.data[i][27],
-		frnt_sev_med: VA_MESSAGE.data[i][28],
-		frnt_sev_uclm: VA_MESSAGE.data[i][29],
-		frnt_sev_max: VA_MESSAGE.data[i][30],
-		ngt_crsh_min: VA_MESSAGE.data[i][31],
-		ngt_crsh_lclm: VA_MESSAGE.data[i][32],
-		ngt_crsh: VA_MESSAGE.data[i][33],
-		ngt_crsh_mean: VA_MESSAGE.data[i][34],
-		ngt_crsh_med: VA_MESSAGE.data[i][35],
-		ngt_crsh_uclm: VA_MESSAGE.data[i][36],
-		ngt_crsh_max: VA_MESSAGE.data[i][37],
-		rear_crsh_min: VA_MESSAGE.data[i][38],
-		rear_crsh_lclm: VA_MESSAGE.data[i][39],
-		rear_crsh: VA_MESSAGE.data[i][40],
-		rear_crsh_mean: VA_MESSAGE.data[i][41],
-		rear_crshh_med: VA_MESSAGE.data[i][42],
-		rear_crsh_uclm: VA_MESSAGE.data[i][43],
-		rear_crsh_max: VA_MESSAGE.data[i][44],
-		ror_crsh_min: VA_MESSAGE.data[i][45],
-		ror_crsh_lclm: VA_MESSAGE.data[i][46],
-		ror_crsh: VA_MESSAGE.data[i][47],
-		ror_crsh_mean: VA_MESSAGE.data[i][48],
-		ror_crsh_med: VA_MESSAGE.data[i][49],
-		ror_crsh_uclm: VA_MESSAGE.data[i][50],
-		ror_crsh_max: VA_MESSAGE.data[i][51],
-		sswp_crsh_min: VA_MESSAGE.data[i][52],
-		sswp_crsh_lclm: VA_MESSAGE.data[i][53],
-		sswp_crsh: VA_MESSAGE.data[i][54],
-		sswp_crsh_mean: VA_MESSAGE.data[i][55],
-		sswp_crsh_med: VA_MESSAGE.data[i][56],
-		sswp_crsh_uclm: VA_MESSAGE.data[i][57],
-		sswp_crsh_max: VA_MESSAGE.data[i][58],
-		tot_adt_min: VA_MESSAGE.data[i][59],
-		tot_adt_lclm: VA_MESSAGE.data[i][60],
-		tot_adt: VA_MESSAGE.data[i][61],
-		tot_adt_mean: VA_MESSAGE.data[i][62],
-		tot_adt_med: VA_MESSAGE.data[i][63],
-		tot_adt_uclm: VA_MESSAGE.data[i][64],
-		tot_adt_max: VA_MESSAGE.data[i][65],
-		tot_fat_crsh_min: VA_MESSAGE.data[i][66],
-		tot_fat_crsh_lclm: VA_MESSAGE.data[i][67],
-		tot_fat_crsh: VA_MESSAGE.data[i][68],
-		tot_fat_crsh_mean: VA_MESSAGE.data[i][69],
-		tot_fat_crsh_med: VA_MESSAGE.data[i][70],
-		tot_fat_crsh_uclm: VA_MESSAGE.data[i][71],
-		tot_fat_crsh_max: VA_MESSAGE.data[i][72],
-		wet_crsh_min: VA_MESSAGE.data[i][73],
-		wet_crsh_lclm: VA_MESSAGE.data[i][74],
-		wet_crsh: VA_MESSAGE.data[i][75],
-		wet_crsh_mean: VA_MESSAGE.data[i][76],
-		wet_crsh_med: VA_MESSAGE.data[i][77],
-		wet_crsh_uclm: VA_MESSAGE.data[i][78],
-		wet_crsh_max: VA_MESSAGE.data[i][79],
-        index: i
+        safety_metric: VA_MESSAGE.data[i][0],
+	min: VA_MESSAGE.data[i][1],
+	lcl: VA_MESSAGE.data[i][2],
+	median: VA_MESSAGE.data[i][3],      
+	mean: VA_MESSAGE.data[i][4],      
+	hcl: VA_MESSAGE.data[i][5],
+	max: VA_MESSAGE.data[i][6],
+	value: VA_MESSAGE.data[i][7],
+	combo: VA_MESSAGE.data[i][8],
+	major_name: VA_MESSAGE.data[i][9],
+        minor_name: VA_MESSAGE.data[i][10]
       });
-    }
+    }	
 
-
-    // Initialize chart if first draw, otherwise process data and update elements accordingly
-    if (d3.select("#" + SVG_ID).empty()) {
-      drawElements();
-    } else {
-      updateElements();
-    }
-  }
-
-  // Draw elements for first time and on resize event
-  function drawElements() {
-    // Return if data is not yet initialized
-    if (!DATA) {
-      return;
-    }
+	chart = {
 	
-	y = d3.scalePoint()
-    .domain(names)
-    .rangeRound([margin.top, height - margin.bottom])
-    .padding(1)
+  	const svg = d3.select(DOM.svg(width, height));
 	
-	var xScale = d3.scaleBand()
-		.domain(data.map(function(d) {
-			return d.label
-		}))
-		.range([padding, w - padding])
-		.padding(0.4);
+	svg.append("g").call(xAxis);
 	
+	const g = svg.append("g")
+		.attr("text-anchor", "end")
+		.style("font", "10px sans-serif")
+		.selectAll("g")
+		.data(data)
+		.join("g")
+		.attr("transform", (d,i) => `translate(0,${y(d.safety_metric)})`);
+
+	g.append("line")
+		.attr("stroke", "#aaa")
+		.attr("x1", d => x(d3.min(measurements, k => d[k])))
+        .attr("x2", d => x(d3.max(measurements, k => d[k])));
 	
-    // Calculate dimensions for graph based on container dimensions
-    WIDTH = window.innerWidth;
-    HEIGHT = window.innerHeight;
-    CHART_WIDTH = WIDTH - Y_AXIS_WIDTH - EDGE_PADDING;
-    CHART_HEIGHT = HEIGHT - X_AXIS_HEIGHT - EDGE_PADDING;
+	g.append("g")
+    		.selectAll("circle")
+    		.data(d => d3.cross(measurements, [d]))
+    		.join("circle")
+           	.attr("cx", ([k, d]) => x(d[k]))
+      		.attr("fill", ([k]) => color(k))
+      		.attr("r", 3.5);
+  
 
-    // Append svg and save reference
-    d3.select("body")
-      .selectAll("#" + SVG_ID)
-      .data([DATA])
-      .enter()
-      .append("svg")
-      .attr("id", SVG_ID);
-
-    SVG = d3
-      .select("#" + SVG_ID)
-      .attr("width", WIDTH)
-      .attr("height", HEIGHT);
+	g.append("text")
+      		.attr("dy", "0.35em")
+      		.attr("x", d => x(d3.min(measurements, k => d[k])) - 30)
+      		.text((d, i) => d.safety_metric);
+  
 
 
-
-    // Create x scale
-    X_SCALE = d3
-      .scaleBand()
-      .rangeRound([0, CHART_WIDTH])
-      .padding(0.1)
-      .domain(
-        DATA.map(function(d) {
-          return d.tot_crsh_min;
-        })
-      );
-
-    // Create y scale
-    Y_SCALE = d3
-      .scaleLinear()
-      .rangeRound([CHART_HEIGHT, 0])
-      .domain([
-        0,
-        d3.max(DATA, function(d) {
-          return d.y;
-        })
-      ]);
-
-    // Create x axis
-    X_AXIS = SVG.selectAll(".x-axis").data([DATA]);
-
-    X_AXIS.enter()
-      .append("g")
-      .classed("x-axis", true)
-      .merge(X_AXIS)
-      .attr(
-        "transform",
-        "translate(" + Y_AXIS_WIDTH + ", " + (HEIGHT - X_AXIS_HEIGHT) + ")"
-      )
-      .call(d3.axisBottom(X_SCALE));
-
-    // Create y axis
-    Y_AXIS = SVG.selectAll(".y-axis").data([DATA]);
-
-    Y_AXIS.enter()
-      .append("g")
-      .classed("y-axis", true)
-      .merge(Y_AXIS)
-      .attr(
-        "transform",
-        "translate(" + Y_AXIS_WIDTH + ", " + EDGE_PADDING + ")"
-      )
-      .call(d3.axisLeft(Y_SCALE));
-
-    // Create dots for each
-    DATA_DOTS = SVG.selectAll(".dot").data(DATA, function(d) {
-      return d.tot_crsh_min;
-    });
-
-    DATA_DOTS.append(".dot")
-		.filter(function(d){return d.
-  }
-
-  // Redraw data dependent elements on data change
-  function updateElements() {
-    // Update x scale
-    X_SCALE = d3
-      .scaleBand()
-      .rangeRound([0, CHART_WIDTH])
-      .padding(0.1)
-      .domain(
-        DATA.map(function(d) {
-          return d.tot_crsh_min;
-        })
-      );
-
-    // Update y scale
-    Y_SCALE = d3
-      .scaleLinear()
-      .rangeRound([CHART_HEIGHT, 0])
-      .domain([
-        0,
-        d3.max(DATA, function(d) {
-          return d.y;
-        })
-      ]);
-
-    // Update x axis
-    X_AXIS = SVG.selectAll(".x-axis").data([DATA]);
-
-    X_AXIS.transition()
-      .duration(TRANS_TIME)
-      .call(d3.axisBottom(X_SCALE));
-
-    // Update x axis
-    Y_AXIS = SVG.selectAll(".y-axis").data([DATA]);
-
-    Y_AXIS.transition()
-      .duration(TRANS_TIME)
-      .call(d3.axisLeft(Y_SCALE));
-
-   
+  	svg.append("g")
+      		.call(legend);
 
 
+	return Object.assign(svg.node());
+ 
+	}	  
+} 
+	  
     
-  }
+  
 
   /******************************************************* Helper Functions *******************************************************/
 
