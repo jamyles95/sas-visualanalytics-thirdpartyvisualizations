@@ -56,11 +56,6 @@ document.addEventListener("DOMContentLoaded", function() {
   let measurements;
   let safety_metrics;
 
-  chart {};
-  win_width = window.innerWidth;
-	  
-  win_height = window.innerHeight;
-
   /*selectedMajor = "SR 1314";
 	  
   selectedMinor = "SR 1311";*/
@@ -143,9 +138,9 @@ document.addEventListener("DOMContentLoaded", function() {
       });
     }
 	  
-debugger;
-    	
 
+    	
+      drawElements();
 
 	  
      /*// Initialize chart if first draw, otherwise process data and update elements accordingly
@@ -153,9 +148,10 @@ debugger;
       drawElements();
     } */
       
-      drawElements();
   }
 
+	
+	
    // Draw elements for first time and on resize event
   function drawElements() {
     // Return if data is not yet initialized
@@ -231,8 +227,8 @@ debugger;
     		.call(g => g.selectAll(".tick line").clone().attr("stroke-opacity", 0.1).attr("y2", height - margin.bottom))
    		 .call(g => g.selectAll(".domain").remove())
 
-	legend = svg => {
-  		const g = svg
+	legend = SVG => {
+  		const g = SVG
       			.attr("font-family", "sans-serif")
       			.attr("font-size", 10)
      			.attr("text-anchor", "end")
