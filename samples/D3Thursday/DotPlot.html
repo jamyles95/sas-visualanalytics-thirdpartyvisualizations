@@ -170,9 +170,18 @@ var SVG = d3.select("body")
 	  .enter()
 	  .append("svg")
 	  .attr("id", SVG_ID);*/
+
+SVG.append("g").call(xAxis);
 	  
-	SVG.selectAll("circle")
-	  .selectAll("circle")
+var textLables = SVG.append("g")
+		.attr("text-anchor", "end")
+		.style("font", "10px sans-serif")
+		.selectAll("g")
+		.data([DATA])
+		.join("g")
+		.attr("transform", (d,i) => `translate(0,${y(d.safety_metric)})`);
+	  
+var circles = SVG.selectAll("circle")
     	  .data(d => d3.cross(measurements, [d]))
     	  .join("circle")
           .attr("cx", ([k, d]) => x(d[k]))
@@ -180,11 +189,16 @@ var SVG = d3.select("body")
       	  .attr("r", 3.5);
 	  
 	  
-	  
-	 d3
-	  .select("#" + SVG_ID)
-	  .attr("width", WIDTH)
-	  .attr("height", HEIGHT);
+var lines = SVG.selectAll("line")
+		.attr("stroke", "#aaa")
+		.attr("x1", d => x(d3.min(measurements, k => d[k])))
+        .attr("x2", d => x(d3.max(measurements, k => d[k])));	  
+
+SVG.append("text")
+	  	.data([DATA])
+      		.attr("dy", "0.35em")
+      		.attr("x", d => x(d3.min(measurements, k => d[k])) - 30)
+      		.text((d, i) => d.safety_metric);
 	  
 	chart = {
 	
