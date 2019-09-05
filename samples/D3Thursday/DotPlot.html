@@ -53,15 +53,18 @@ document.addEventListener("DOMContentLoaded", function() {
   let VA_MESSAGE; // Data message to be received from VA
   let VA_RESULT_NAME; // Result name required to send messages back to VA
   let DATA; // Data to be parsed from VA data message
+  let measurements;
+  let safety_metrics;
 
   chart {};
   win_width = window.innerWidth;
 	  
-  win_height = 1000;
+  win_height = window.innerHeight;
 
-  selectedMajor = "SR 1314";
+  /*selectedMajor = "SR 1314";
 	  
-  selectedMinor = "SR 1311";
+  selectedMinor = "SR 1311";*/
+	
   // Static dimension variables
   const TRANS_TIME = 500; // Duration of transitions
   const EDGE_PADDING = 10; // Padding between end of axes and edge of SVG
@@ -103,7 +106,9 @@ document.addEventListener("DOMContentLoaded", function() {
     // Initialize data variables
     VA_MESSAGE = messageFromVA;
     VA_RESULT_NAME = messageFromVA.resultName;
-
+    measurements = ['min', 'lcl', 'median', 'mean', 'hlc', 'max'];
+    safety_metrics = DATA.map(d => d.safety_metric);
+	  
     // Validate data roles
     if (
       !va.contentUtil.validateRoles(
@@ -139,14 +144,15 @@ document.addEventListener("DOMContentLoaded", function() {
     }	
 
     	
-	const measurements = ['min', 'lcl', 'median', 'mean', 'hlc', 'max'];
-	const safety_metrics = DATA.map(d => d.safety_metric);
+
 
 	  
-     // Initialize chart if first draw, otherwise process data and update elements accordingly
+     /*// Initialize chart if first draw, otherwise process data and update elements accordingly
     if (d3.select("#" + SVG_ID).empty()) {
       drawElements();
-    } 
+    } */
+      
+      drawElements();
   }
 
    // Draw elements for first time and on resize event
