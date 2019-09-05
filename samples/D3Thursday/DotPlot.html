@@ -257,7 +257,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	margin = ({top: 20, right: 5, bottom: 150, left: 5})
 	  
-	  
+  }	  
 	  
 /*	chart = {
 	
@@ -367,28 +367,11 @@ document.addEventListener("DOMContentLoaded", function() {
     */
   
 
-  /******************************************************* Helper Functions 
-
-  // Determine whether or not page is being rendered in iFrame
-  function inIframe() {
-    try {
-      return window.self !== window.top;
-    } catch (e) {
-      return true;
-    }
-  }
-
-  // Deselect all on svg click
-  function deselectAllElements() {
-    // Deselect all elements
-    d3.selectAll(".selectable").classed("selected", false);
-
-    // Post message to VA
-    va.messagingUtil.postSelectionMessage(VA_RESULT_NAME);
-  }
+  /******************************************************* Helper Functions    *******************************************************/
 
 
-   *******************************************************/
+
+
   
 });
 </script>
